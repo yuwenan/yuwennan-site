@@ -1,0 +1,21 @@
+.masonry-list { position: relative; width: 100%; }
+.masonry-item {
+  position: absolute; top: 0; left: 0; will-change: transform, width, height, opacity;
+  cursor: pointer;
+}
+.masonry-img {
+  position: relative; width: 100%; height: 100%;
+  background-size: cover; background-position: center; border-radius: 12px;
+  overflow: hidden; box-shadow: 0 18px 50px -18px rgba(0,0,0,0.6);
+  border: 1px solid var(--card-border);
+}
+.masonry-img::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(10,11,13,0.78) 0%, rgba(10,11,13,0) 46%);
+}
+.masonry-cap {
+  position: absolute; left: 16px; bottom: 14px; z-index: 1;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.masonry-cap-t { font-size: 16px; font-weight: 600; color: var(--text); letter-spacing: 0.01em; }
+.masonry-cap-tag { font-size: 11px; color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase; }
