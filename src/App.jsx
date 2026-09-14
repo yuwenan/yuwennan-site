@@ -11,6 +11,12 @@ import DecryptedText from './reactbits/DecryptedText.jsx'
 import TextType from './reactbits/TextType.jsx'
 import SpotlightCard from './reactbits/SpotlightCard.jsx'
 import zhinangImg from './assets/zhinang-cover.png'
+import jueImg from './assets/jue-cover.png'
+import jueHome from './assets/jue-home.png'
+import jueBeijing from './assets/jue-beijing.png'
+import jueEcom from './assets/jue-ecom.png'
+import jueClassroom from './assets/jue-classroom.png'
+import jueEmoji from './assets/jue-emoji.png'
 import skilllabImg from './assets/skilllab.png'
 import memoryGameImg from './assets/memory-game.jpg'
 import aigcTyphoonImg from './assets/aigc-typhoon.jpg'
@@ -144,6 +150,16 @@ const WORKS = [
       { label: '顾问团 RAG', items: ['名人 / 经典书', '可放自己积累', '出处溯源', '本地向量检索'] },
       { label: '数字分身', items: ['多维自画像', '了解我', '替我决定（置信度闸）', '和自己聊', '隐私分级'] },
       { label: '技术', items: ['DeepSeek', 'bge 本地向量', 'sqlite', '会话落库'] },
+    ],
+  },
+  {
+    tag: 'AIGC · 视频生成', title: 'Jué 角', en: 'AI 剧组', img: jueImg,
+    shots: [jueHome, jueBeijing, jueEcom, jueClassroom, jueEmoji],
+    desc: 'AIGC「剧组」协作平台，扒标杆 oii 拆明白再复刻。多角分工跑通整条链：剧本 → 角色 / 场景三视图 → 分镜取帧 → 图生视频 + 配音；配 prompt 调画面调性，摸清模型「生成」与「编辑」之分，一句想法做到出片。FastAPI + sqlite + 公开 API。',
+    caps: [
+      { label: '生成链', items: ['剧本', '角色三视图', '场景三视图', '分镜', '图生视频'] },
+      { label: '剧组协作', items: ['多角色分工', '风格可选', '一站式流水线'] },
+      { label: '技术', items: ['FastAPI', 'sqlite', '火山对话', '公开 API'] },
     ],
   },
   {
@@ -312,7 +328,8 @@ const MORE = [
 const PRESET_QA = [
   {
     q: '做过什么产品？',
-    a: '都是一个人从想法做到能跑的独立产品：\n- **智囊**：顾问团 RAG + 决策台账 + 数字分身（你现在聊的「另一个我」就是它）\n- **Prompt Hub**：Prompt 与素材管理台，词汇库 + 标签体系\n- **Skill Lab**：AI skill 拆解学习库\n- **记忆碎片**：网页 3D 密室逃脱游戏\n加上桌宠、语音听写这些小工具，10+ 个都能跑。往上翻「作品」区都有截图。',
+    a: '都是一个人从想法做到能跑的独立产品：\n- **智囊**：顾问团 RAG + 决策台账 + 数字分身（你现在聊的「另一个我」就是它）\n- **Prompt Hub**：Prompt 与素材管理台，词汇库 + 标签体系\n- **Jué 角**：AI 剧组视频生成流水线
+- **Skill Lab**：AI skill 拆解学习库\n- **记忆碎片**：网页 3D 密室逃脱游戏\n加上桌宠、语音听写这些小工具，10+ 个都能跑。往上翻「作品」区都有截图。',
   },
   {
     q: '为什么转 AI 产品？',
@@ -320,7 +337,7 @@ const PRESET_QA = [
   },
   {
     q: '怎么看 AI 的未来？',
-    a: '比较务实的看法：AI 的未来不是一个大模型通吃，而是**无数轻量、专用、可组合的智能体**。她自己同时推进十几个产品，每个解决一个具体的小问题——智囊管决策、Skill Lab 管学习、记忆碎片管好玩，未来每个人都会有一套自己的「AI 工具链」。另外她坚持 AI 要**可解释、可控制**：所有评分和判断都必须能摊开依据，不做黑箱。',
+    a: '比较务实的看法：AI 的未来不是一个大模型通吃，而是**无数轻量、专用、可组合的智能体**。她自己同时推进十几个产品，每个解决一个具体的小问题——智囊管决策、Jué 管出片、记忆碎片管好玩，未来每个人都会有一套自己的「AI 工具链」。另外她坚持 AI 要**可解释、可控制**：所有评分和判断都必须能摊开依据，不做黑箱。',
   },
 ]
 
