@@ -1,0 +1,257 @@
+---
+const bars = [12, 27, 43, 21, 54, 31, 47, 19, 36, 14];
+---
+
+<section class="voice-demo not-prose" aria-label="VoiceLab 交互示意" data-voice-demo>
+  <div class="demo-topline">
+    <span>体验输入过程</span>
+    <span>交互示意 · 示例文本</span>
+  </div>
+  <div class="demo-modes" role="group" aria-label="选择语音输入路径">
+    <button type="button" data-source="mic" aria-pressed="true">
+      实时麦克风
+    </button>
+    <button type="button" data-source="recorder" aria-pressed="false">
+      录音豆转写
+    </button>
+  </div>
+  <p class="demo-intro" data-intro>
+    触发听写后，识别结果逐步进入当前输入框。
+  </p>
+  <div class="demo-editor">
+    <label for="voice-demo-output">正在编辑的内容</label>
+    <textarea id="voice-demo-output" rows="3" readonly data-output>今天的想法：</textarea>
+    <div class="editor-bottom">
+      <span class="demo-state" role="status" data-status>
+        就绪 · 等待开始
+      </span>
+      <span class="voice-wave" aria-hidden="true">
+        {bars.map((height, i) => (
+          <i style={`--bar:${height}px;--delay:${i * 70}ms`}></i>
+        ))}
+      </span>
+    </div>
+  </div>
+  <div class="demo-actions">
+    <button class="play-voice" type="button" data-play>
+      <span aria-hidden="true">▶</span> 播放输入演示
+    </button>
+    <button class="reset-voice" type="button" data-reset>
+      重置
+    </button>
+  </div>
+  <p class="demo-note">演示不会开启麦克风或连接录音设备。</p>
+</section>
+
+<script>
+  const demo = document.querySelector<HTMLElement>('[data-voice-demo]');
+  if (demo) {
+    const output = demo.querySelector<HTMLTextAreaElement>('[data-output]')!;
+    const status = demo.querySelector<HTMLElement>('[data-status]')!;
+    const intro = demo.querySelector<HTMLElement>('[data-intro]')!;
+    const play = demo.querySelector<HTMLButtonElement>('[data-play]')!;
+    const reset = demo.querySelector<HTMLButtonElement>('[data-reset]')!;
+    const modes = Array.from(demo.querySelectorAll<HTMLButtonElement>('[data-source]'));
+    const sample = '把想法说出来，让文字跟上思路。';
+    const prefix = '今天的想法：';
+    let source = 'mic';
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    let cursor = 0;
+    const cancel = () => {
+      clearTimeout(timer);
+      demo.classList.remove('is-playing');
+      play.disabled = false;
+    };
+    const restore = () => {
+      cancel();
+      output.value = prefix;
+      status.textContent = '就绪 · 等待开始';
+    };
+    const finish = () => {
+      cancel();
+      status.textContent = source === 'mic' ? '已完成 · 文字留在输入位置' : '转写完成 · 已回填文字';
+    };
+    modes.forEach((button) =>
+      button.addEventListener('click', () => {
+        source = button.dataset.source || 'mic';
+        modes.forEach((mode) => mode.setAttribute('aria-pressed', String(mode === button)));
+        intro.textContent =
+          source === 'mic'
+            ? '触发听写后，识别结果逐步进入当前输入框。'
+            : '录音结束后等待转写生成，结果返回时回填到输入位置。';
+        restore();
+      }),
+    );
+    play.addEventListener('click', () => {
+      restore();
+      play.disabled = true;
+      demo.classList.add('is-playing');
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (source === 'recorder') {
+        status.textContent = '录音已结束 · 等待转写生成…';
+        timer = setTimeout(
+          () => {
+            output.value = prefix + sample;
+            finish();
+          },
+          reduced ? 250 : 1400,
+        );
+      } else {
+        status.textContent = '听写中 · 文字逐步输入…';
+        cursor = 0;
+        const step = () => {
+          cursor = reduced ? sample.length : cursor + 1;
+          output.value = prefix + sample.slice(0, cursor);
+          if (cursor < sample.length) timer = setTimeout(step, 100);
+          else finish();
+        };
+        step();
+      }
+    });
+    reset.addEventListener('click', restore);
+    window.addEventListener('pagehide', cancel, { once: true });
+  }
+</script>
+
+<style>
+  .voice-demo {
+    border: 1px solid #c9d8ce;
+    border-radius: 24px;
+    padding: clamp(22px, 4vw, 42px);
+    background: #edf3ee;
+    color: #263d32;
+  }
+  .demo-topline {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: #577363;
+  }
+  .demo-modes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 26px;
+  }
+  .demo-modes button {
+    border: 1px solid #bacbbf;
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-size: 14px;
+    background: transparent;
+    cursor: pointer;
+  }
+  .demo-modes button[aria-pressed='true'] {
+    background: #365f48;
+    color: white;
+    border-color: #365f48;
+  }
+  .demo-intro {
+    font-size: 15px;
+    line-height: 1.8;
+    margin: 18px 0 22px;
+  }
+  .demo-editor {
+    background: #fff;
+    border: 1px solid #dce5dd;
+    border-radius: 16px;
+    padding: 22px;
+  }
+  .demo-editor label {
+    color: #677a6c;
+    font-size: 12px;
+    display: block;
+    margin-bottom: 18px;
+  }
+  .demo-editor textarea {
+    display: block;
+    width: 100%;
+    min-height: 130px;
+    resize: none;
+    font: inherit;
+    font-size: clamp(18px, 2.2vw, 24px);
+    color: #294234;
+    line-height: 1.7;
+    border: none;
+    background: transparent;
+  }
+  .editor-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    min-height: 42px;
+  }
+  .demo-state {
+    color: #577460;
+    font-size: 12px;
+  }
+  .voice-wave {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 38px;
+    flex-shrink: 0;
+  }
+  .voice-wave i {
+    display: block;
+    width: 3px;
+    height: calc(var(--bar) * 0.5);
+    background: #80a58b;
+    border-radius: 2px;
+  }
+  .is-playing .voice-wave i {
+    animation: voice-pulse 0.7s var(--delay) ease-in-out alternate infinite;
+  }
+  .demo-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 22px;
+    align-items: center;
+  }
+  .play-voice {
+    background: #365f48;
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 12px 23px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .play-voice:disabled {
+    opacity: 0.65;
+    cursor: wait;
+  }
+  .reset-voice {
+    padding: 10px 14px;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .demo-note {
+    margin: 17px 0 0;
+    color: #607766;
+    font-size: 12px;
+    line-height: 1.7;
+  }
+  button:focus-visible,
+  textarea:focus-visible {
+    outline: 3px solid #a86942;
+    outline-offset: 4px;
+  }
+  @keyframes voice-pulse {
+    to {
+      transform: scaleY(0.35);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .is-playing .voice-wave i {
+      animation: none;
+    }
+  }
+</style>

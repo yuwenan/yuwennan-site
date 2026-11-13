@@ -1,0 +1,41 @@
+---
+import Hero from '@/components/home/Hero.astro';
+import ProjectGallery from '@/components/work/ProjectGallery.astro';
+import { work, services } from '@/config/home';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getProjects } from '@/lib/work';
+const projects = await getProjects();
+---
+
+<BaseLayout>
+  <Hero />
+  <section id="work" class="shell work-section" aria-labelledby="work-title">
+    <div class="section-caption">
+      <span class="eyebrow">{work.eyebrow}</span>
+      <span class="tiny-label">01 — {String(projects.length).padStart(2, '0')}</span>
+    </div>
+    <h2 id="work-title" class="work-heading">
+      {work.title}
+    </h2>
+    <p class="section-description">{work.text}</p>
+    <ProjectGallery projects={projects} />
+  </section>
+  <section class="shell approach-section" id="approach" aria-labelledby="approach-title">
+    <div class="approach-intro">
+      <p class="eyebrow">{services.eyebrow}</p>
+      <h2 id="approach-title">{services.title}</h2>
+      <p>工具会变，但产品判断需要有依据。</p>
+    </div>
+    <ol class="approach-list">
+      {services.items.map((s, i) => (
+        <li>
+          <span class="step-number">0{i + 1}</span>
+          <div>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+</BaseLayout>

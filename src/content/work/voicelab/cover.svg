@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <rect width="1400" height="900" rx="24" fill="#f6f8f4"/>
+  <g font-family="Arial, Noto Sans CJK SC, sans-serif">
+    <text x="76" y="92" font-size="26" fill="#41675c" letter-spacing="4">VOICELAB</text>
+    <text x="76" y="187" font-size="58" font-weight="600" fill="#223a33">让表达，直接落到光标。</text>
+    <text x="76" y="243" font-size="26" fill="#63766d">跨应用输入 / 实时听写 / 录音转写</text>
+    <rect x="76" y="304" width="1248" height="360" rx="24" fill="#fff" stroke="#dce5dd" stroke-width="2"/>
+    <circle cx="116" cy="346" r="7" fill="#c8d6ce"/><circle cx="141" cy="346" r="7" fill="#c8d6ce"/><circle cx="166" cy="346" r="7" fill="#c8d6ce"/>
+    <text x="120" y="431" font-size="24" fill="#7b8b82">当前输入位置</text>
+    <text x="120" y="515" font-size="39" fill="#243e34">把想法说出来，让文字跟上思路。</text>
+    <rect x="834" y="478" width="4" height="45" rx="2" fill="#477865"/>
+    <rect x="120" y="566" width="224" height="48" rx="24" fill="#eef4ee"/>
+    <circle cx="147" cy="590" r="6" fill="#4d8a69"/><text x="165" y="599" font-size="20" fill="#47735b">实时听写中</text>
+    <g stroke="#6a957c" stroke-width="7" stroke-linecap="round">
+      <path d="M1060 479v18 M1078 464v48 M1096 447v82 M1114 471v34 M1132 437v102 M1150 456v64 M1168 467v44 M1186 448v78 M1204 468v40 M1222 480v16"/>
+    </g>
+    <text x="82" y="738" font-size="24" fill="#41675c">01　实时麦克风</text><text x="82" y="780" font-size="23" fill="#78877e">触发 → 识别 → 输入当前光标</text>
+    <text x="760" y="738" font-size="24" fill="#41675c">02　录音豆转写</text><text x="760" y="780" font-size="23" fill="#78877e">录音 → 等待结果 → 文字回填</text>
+    <text x="82" y="854" font-size="19" fill="#8a978f">交互概念示意 · macOS 原生应用</text>
+  </g>
+</svg>

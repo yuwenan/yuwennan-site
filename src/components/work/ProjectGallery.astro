@@ -1,0 +1,49 @@
+---
+import ProjectCard from './ProjectCard.astro';
+import type { Project } from '@/lib/work';
+interface Props {
+  projects: Project[];
+}
+const { projects } = Astro.props;
+const categories = ['全部作品', ...new Set(projects.map((p) => p.data.category))];
+---
+
+<div data-gallery>
+  <div class="gallery-toolbar">
+    <div class="filter-list" role="group" aria-label="作品分类">
+      {categories.map((c, i) => (
+        <button class="filter-button" type="button" data-filter={c} aria-pressed={i === 0 ? 'true' : 'false'}>
+          {c}
+          <span>{i === 0 ? projects.length : projects.filter((p) => p.data.category === c).length}</span>
+        </button>
+      ))}
+    </div>
+    <p class="gallery-count" aria-live="polite">
+      <span data-count>{projects.length}</span> 个项目
+    </p>
+  </div>
+  <div class="project-grid">
+    {projects.map((project, i) => (
+      <ProjectCard project={project} eager={i < 2} />
+    ))}
+  </div>
+</div>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-gallery]').forEach((gallery) => {
+    const buttons = gallery.querySelectorAll<HTMLButtonElement>('[data-filter]');
+    buttons.forEach((button) =>
+      button.addEventListener('click', () => {
+        const category = button.dataset.filter;
+        let count = 0;
+        buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
+        gallery.querySelectorAll<HTMLElement>('[data-category]').forEach((card) => {
+          const show = category === '全部作品' || card.dataset.category === category;
+          card.hidden = !show;
+          if (show) count++;
+        });
+        const counter = gallery.querySelector('[data-count]');
+        if (counter) counter.textContent = String(count);
+      }),
+    );
+  });
+</script>

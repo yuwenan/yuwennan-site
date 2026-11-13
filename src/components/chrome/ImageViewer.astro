@@ -1,0 +1,51 @@
+<dialog class="lightbox" id="image-viewer" aria-label="项目截图放大查看">
+  <div class="lightbox-top">
+    <span data-viewer-title>项目截图</span>
+    <div class="lightbox-actions">
+      <button type="button" data-viewer-zoom aria-pressed="false">
+        查看细节
+      </button>
+      <button type="button" data-viewer-close aria-label="关闭放大截图">
+        ✕
+      </button>
+    </div>
+  </div>
+  <div class="lightbox-scroll">
+    <img alt="" width="1600" height="1000" />
+  </div>
+</dialog>
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('#image-viewer');
+  if (dialog) {
+    const image = dialog.querySelector('img')!;
+    const scroller = dialog.querySelector('.lightbox-scroll')!;
+    const title = dialog.querySelector('[data-viewer-title]')!;
+    const zoom = dialog.querySelector<HTMLButtonElement>('[data-viewer-zoom]')!;
+    let previousOverflow = '';
+    document.querySelectorAll<HTMLButtonElement>('[data-lightbox]').forEach((button) =>
+      button.addEventListener('click', () => {
+        image.src = button.dataset.lightbox!;
+        image.alt = button.dataset.imageTitle || '项目截图';
+        title.textContent = image.alt;
+        scroller.classList.remove('is-zoomed');
+        zoom.setAttribute('aria-pressed', 'false');
+        zoom.textContent = '查看细节';
+        previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        dialog.showModal();
+      }),
+    );
+    dialog.querySelector('[data-viewer-close]')?.addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+    dialog.addEventListener('close', () => {
+      document.body.style.overflow = previousOverflow;
+    });
+    zoom.addEventListener('click', () => {
+      const active = scroller.classList.toggle('is-zoomed');
+      zoom.setAttribute('aria-pressed', String(active));
+      zoom.textContent = active ? '适应屏幕' : '查看细节';
+    });
+  }
+</script>

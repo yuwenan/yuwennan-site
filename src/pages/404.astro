@@ -1,0 +1,31 @@
+---
+import { withBase } from '@/config/paths';
+import Icon from '@/components/ui/Icon.astro';
+import { navigation } from '@/config/site';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="页面未找到" description="未找到这个页面，请返回作品集。" noindex closing={false}>
+  <section class="shell grid min-h-[70vh] place-items-center py-20 text-center">
+    <div>
+      <p class="rise font-serif text-[clamp(6rem,4rem+10vw,12rem)] leading-none text-muted italic">404</p>
+      <h1 class="rise mt-4 text-section" style="--rise-step: 1">
+        这页暂时没有找到。
+      </h1>
+      <p class="rise mx-auto mt-5 max-w-md text-lead text-muted" style="--rise-step: 2">
+        可以返回首页，继续浏览我的作品。
+      </p>
+      <div class="rise mt-10 flex flex-wrap justify-center gap-3" style="--rise-step: 3">
+        <a class="btn btn-primary" href={withBase('/')}>
+          <Icon name="arrow-left" class="size-4" />
+          返回首页
+        </a>
+        {navigation.map((link) => (
+          <a class="btn btn-ghost" href={link.href}>
+            {link.label}
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

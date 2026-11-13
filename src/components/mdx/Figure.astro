@@ -1,0 +1,37 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image, getImage } from 'astro:assets';
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  caption?: string;
+  plain?: boolean;
+}
+const { src, alt, caption, plain = false } = Astro.props;
+const full = await getImage({ src, width: Math.min(src.width, 3200), format: 'webp', quality: 92 });
+---
+
+<figure class="not-prose">
+  <button
+    class="figure-button"
+    type="button"
+    data-lightbox={full.src}
+    data-image-title={alt}
+    aria-label={`放大查看：${alt}`}
+  >
+    <div class:list={['overflow-hidden rounded-card', !plain && 'tint-panel p-[3%]']}>
+      <Image
+        src={src}
+        alt={alt}
+        widths={[800, 1200, 1600, 2400]}
+        sizes="(min-width:80rem) 1100px,94vw"
+        quality={90}
+        class:list={['w-full', !plain && 'shot']}
+      />
+    </div>
+  </button>
+  <figcaption class="figure-hint">
+    <span>{caption}</span>
+    <span style="white-space:nowrap">点击放大 ↗</span>
+  </figcaption>
+</figure>

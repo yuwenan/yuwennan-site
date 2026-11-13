@@ -1,0 +1,45 @@
+---
+import { Image, getImage } from 'astro:assets';
+import type { Project } from '@/lib/work';
+interface Props {
+  screens: Project['data']['appScreens'];
+}
+const { screens } = Astro.props;
+const images = await Promise.all(
+  screens.map(async (screen) => ({
+    ...screen,
+    full: await getImage({ src: screen.src, width: screen.src.width, format: 'webp', quality: 94 }),
+  })),
+);
+---
+
+<div class="app-screens">
+  {images.map((screen) => (
+    <figure class="app-screen">
+      <button
+        type="button"
+        class="app-screen-button"
+        data-lightbox={screen.full.src}
+        data-image-title={screen.title}
+        aria-label={`放大查看：${screen.title}`}
+      >
+        <Image
+          src={screen.src}
+          alt={screen.title}
+          widths={[320, 480, 720]}
+          sizes="(min-width:80rem) 260px,(min-width:48rem) 22vw,260px"
+          format="webp"
+          quality={92}
+          loading="eager"
+        />
+        <span class="app-screen-zoom" aria-hidden="true">
+          ↗
+        </span>
+      </button>
+      <figcaption>
+        <h2>{screen.title}</h2>
+        <p>{screen.description}</p>
+      </figcaption>
+    </figure>
+  ))}
+</div>

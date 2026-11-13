@@ -1,0 +1,20 @@
+---
+import ProjectGallery from './ProjectGallery.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import type { Project } from '@/lib/work';
+interface Props {
+  projects: Project[];
+  current: number;
+  total: number;
+}
+const { projects } = Astro.props;
+---
+
+<BaseLayout title="全部作品">
+  <section class="shell work-section" style="padding-top:70px">
+    <p class="eyebrow">SELECTED WORK</p>
+    <h1 class="work-heading">我做过的产品。</h1>
+    <p class="section-description">每个项目，都是一次从问题到实现的探索。</p>
+    <ProjectGallery projects={projects} />
+  </section>
+</BaseLayout>

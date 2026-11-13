@@ -1,0 +1,33 @@
+---
+import { hero } from '@/config/home';
+import Icon from '@/components/ui/Icon.astro';
+---
+
+<section class="shell portfolio-hero" aria-labelledby="hero-title">
+  <div class="hero-kicker rise">
+    <span class="small-dot"></span> AI 产品经理 <span class="kicker-divider">/</span> SELECTED PORTFOLIO
+  </div>
+  <div class="hero-layout">
+    <div>
+      <h1 id="hero-title" class="rise hero-title" style="--rise-step:1">
+        {hero.greeting}
+        <br />
+        <span>{hero.title}</span>
+      </h1>
+      <p class="rise hero-english serif" style="--rise-step:2">
+        {hero.highlight}
+      </p>
+    </div>
+    <div class="hero-aside rise" style="--rise-step:3">
+      <p>{hero.text}</p>
+      <a href={hero.primary.href} class="hero-link">
+        {hero.primary.label}
+        <Icon name="arrow-right" class="size-4" />
+      </a>
+    </div>
+  </div>
+  <div class="hero-bottom rise" style="--rise-step:4">
+    <span>产品定义 · Agent 设计 · 体验落地</span>
+    <span>DESIGN → BUILD → LEARN</span>
+  </div>
+</section>

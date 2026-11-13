@@ -1,0 +1,40 @@
+---
+import { withBase } from '@/config/paths';
+import { siteConfig } from '@/config/site';
+import { closing } from '@/config/home';
+import Icon from '@/components/ui/Icon.astro';
+interface Props {
+  closing?: boolean;
+}
+const { closing: showClosing = true } = Astro.props;
+---
+
+{showClosing && (
+  <section class="shell closing-section">
+    <div class="closing-panel">
+      <div>
+        <p class="eyebrow">{closing.eyebrow}</p>
+        <h2>
+          {closing.title}
+          <br />
+          {closing.highlight}
+        </h2>
+        <p>{closing.text}</p>
+      </div>
+      <a class="btn btn-accent" href="https://github.com/yuwenan" target="_blank" rel="noopener noreferrer">
+        我的 GitHub
+        <Icon name="arrow-up-right" class="size-4" />
+      </a>
+    </div>
+  </section>
+)}
+<footer class="shell portfolio-footer">
+  <a href={withBase('/')} class="footer-brand">
+    {siteConfig.name}
+    <span>AI PRODUCT PORTFOLIO</span>
+  </a>
+  <p>产品作品集</p>
+  <a href="#content" class="back-top">
+    回到顶部 <Icon name="arrow-up" class="size-4" />
+  </a>
+</footer>

@@ -1,0 +1,79 @@
+---
+import { Image } from 'astro:assets';
+import Icon from '@/components/ui/Icon.astro';
+import { projectHref, type Project } from '@/lib/work';
+interface Props {
+  project: Project;
+  eager?: boolean;
+  headingLevel?: 'h2' | 'h3';
+}
+const { project, eager = false, headingLevel: Heading = 'h3' } = Astro.props;
+const { title, client, services, cover, coverAlt, tint, category, status, appScreens } = project.data;
+---
+
+<article
+  class:list={['project-card reveal', project.id === 'claudewatch' && 'watch-card']}
+  style={`--tint:${tint}`}
+  data-category={category}
+>
+  <a class="project-visual tint-panel" href={projectHref(project)} aria-label={`查看${client}项目案例`}>
+    <div class="visual-top">
+      <span>{client}</span>
+      <span>{category}</span>
+    </div>
+    {appScreens.length > 0 ? (
+      <div class="phone-cover" aria-hidden="true">
+        {appScreens.slice(1, 4).map((screen) => (
+          <div class="cover-phone">
+            <Image
+              src={screen.src}
+              alt=""
+              widths={[240, 440]}
+              sizes="(min-width:48rem) 16vw,28vw"
+              format="webp"
+              quality={88}
+              loading={eager ? 'eager' : 'lazy'}
+            />
+          </div>
+        ))}
+      </div>
+    ) : (
+      <div class="screen-frame">
+        <Image
+          src={cover}
+          alt={coverAlt}
+          widths={[640, 960, 1280, 1600]}
+          sizes="(min-width:80rem) 600px,(min-width:48rem) 47vw,90vw"
+          quality={88}
+          loading={eager ? 'eager' : 'lazy'}
+          class="project-shot"
+        />
+      </div>
+    )}
+    {project.id === 'claudewatch' && (
+      <div class="watch-copy">
+        <span>
+          离开电脑，
+          <br />
+          任务依然在掌握中。
+        </span>
+        <small>Mac ↔ Apple Watch</small>
+      </div>
+    )}
+    <span class="project-badge" aria-hidden="true">
+      <Icon name="arrow-up-right" class="size-5" />
+    </span>
+  </a>
+  <div class="project-meta">
+    <span>{client}</span>
+    <span>{status}</span>
+  </div>
+  <Heading class="project-title">
+    <a href={projectHref(project)}>{title}</a>
+  </Heading>
+  <ul class="project-tags" aria-label="项目能力">
+    {services.slice(0, 3).map((s) => (
+      <li>{s}</li>
+    ))}
+  </ul>
+</article>
